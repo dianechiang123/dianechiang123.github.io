@@ -1,1 +1,45 @@
-bauhaus
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.js"></script>
+    <script src="main.js"></script>
+    <style>
+      #canvas-container {
+        display: flex;
+        justify-content: center;
+      }
+      #text-container {
+        margin-left: 200px;
+      }
+      #image-container {
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="image-container">
+      <img src="paul.jpeg" alt="Artwork belongs to Harvard Art Museum.">
+    </div>
+    <div id="text-container">
+      <p>
+      <b>Assignment 1: Bauhaus</b>
+      ​</p>
+      <br>Paul Klee's <a href="https://www.harvardartmuseums.org/collections/object/296414?position=5">Naval Observatory (Seewarte)</a> from <a href="https://www.harvardartmuseums.org/collections">Harvard Art Museums'</a> collection.
+      <p>
+      Inspired by Paul Klee's painting, my creation is an reimagined work telling the story of what-could-be before and during the eclipse.
+      <br>Actions for the user include:
+      ​</p>
+      • <i>mouseX, mouseY </i>– The sun (and eclipse moons) follows the mouse cursor.
+      <br>• <i>mouseIsPressed</i> – The eclipse occurs when the mouse button is held down.
+      <br>• <i>LEFT_ARROW, RIGHT_ARROW</i> - Control the protagonist of the story.
+      ​<p>
+      Click <a href="https://editor.p5js.org/Sandshield/sketches/ow4ilEH8k">here</a> to view this work on p5.js editor with code & comments.
+      </p>
+    </div>
+    <div id="canvas-container">
+      <div id="my-canvas"></div>
+    </div>
+
+  </body>
+</html>
