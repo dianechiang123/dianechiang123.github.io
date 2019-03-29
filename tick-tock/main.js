@@ -1,42 +1,8 @@
-//
-
-
-// Use 2 variables to store key data = 4 points
-
-	let x = 0;
-	let y = 0;
-
-	let speed = 4;
-	let easing = 0.05;
-
-	let figureSpeed = 1;
-	let figureX = 0;
-	let figureY = 0;
-
-	let sunrayX;
-	let sunrayY;
-
-	let sunDiameterX = 180;
-	let sunDiameterY = 180;
-
-	let characterX = 500;
-	let characterY = 0;
-
-  let fortX = 512;
-	let fortY = 655;
-
-	let cloudSpeed = 1;
-	let cloudX = 0;
-	let cloudY = 0;
-
-
-
+let angle = 0;
 
 function setup() {
 
-// Having 1024px x 768px dimensions = 1 point
-
-  	const canvas = createCanvas(1024, 768);
+  	const canvas = createCanvas(700, 280);
     canvas.parent('my-canvas');
 
 }
@@ -46,187 +12,85 @@ function setup() {
 
 function draw() {
 
-// Using background(), stroke(), and fill() { or using their corresponding noStroke() or noFill() } = 3 points
+	  background('#F4F4F4');
 
-  // Color: "Terbang Merapi"
-  	background(79,119,142);
+	  // display digital time in 12-hour format
+	  fill(0);
+	  textSize(24);
+	  noStroke();
 
+	  let displayHour = hour();
+	  let displayMinute = minute();
+	  let displaySecond = second();
 
+	  if(displayHour > 12) {
+	    displayHour = displayHour - 12;
+	  }
 
+	  if(displayHour == 0) {
+	    displayHour = 12;
+	  }
 
-// Use transparency = 1 point
+	  if(displayHour < 10) {
+	    displayHour = nf(displayHour, 2, 0);
+	  }
 
-  // Ground
-  	fill(85, 98, 112, 230);
-  		rect((width/2), 750, width, 100);
+	    if(displayMinute < 10) {
+	    displayMinute = nf(displayMinute, 2, 0);
+	  }
 
 
+	    if(displaySecond < 10) {
+	    displaySecond = nf(displaySecond, 2, 0);
+	  }
 
+	  text(displayHour + ':', 480, height/2);
+	  text(displayMinute + ':', 530, height/2);
+	  text(displaySecond, 570, height/2);
 
-    // Fort
 
-  	rectMode(CENTER);
-  	fill(79, 255, 142, 50);
-		rect(fortX, fortY, 100, 90);
+	  // white clock face
+	  fill(255);
+	  ellipse(width/2, height/2, 200);
 
-// One example of beginShape(), vertex(), and endShape() = 1 point
 
-  // Flag on the Fort
+	  // map time to circle
+	  let s = map(second(), 0, 60, 0, radians(360));
+	  let m = map(minute() + norm(second(), 0, 60), 0, 60, 0, radians(360));
+	  let h = map(hour() + norm(minute(), 0, 60), 0, 24, 0, radians(360) * 2);
 
-  	noStroke();
-  	fill(255, 119, 142);
 
-    beginShape( );
-    	vertex(fortX, fortY - 45)
-	    vertex(fortX, fortY - 130)
-	    vertex(fortX + 50, fortY - 130)
-      vertex(fortX + 25, fortY - 110)
- 			vertex(fortX + 50, fortY - 90)
-   		vertex(fortX + 4, fortY - 90)
-     	vertex(fortX + 4, fortY - 45)
-		endShape(CLOSE);
 
+	  // hour hand
+	  push( );
+	  translate(width/2, height/2);
 
+	  rotate(h);
 
+	  fill(255, 0, 0);
+	  rect(-3, -60, 6, 60);
+	  pop( );
 
-  // People
+	  // minute hand
+	  push( );
+	  translate(width/2, height/2);
 
-    fill(85, 98, 112);
-  	ellipse(200, 650, 20, 20);
-  	ellipse(200, 670, 20, 20);
-  	rect(200, 680, 20, 20);
-  	rect(195, 700, 5, 20);
-  	rect(205, 700, 5, 20);
+	  rotate(m);
 
-  	fill(85, 98, 112);
-  	ellipse(250, 650, 20, 20);
-  	ellipse(250, 670, 20, 20);
-  	rect(250, 680, 20, 20);
-  	rect(245, 700, 5, 20);
-  	rect(255, 700, 5, 20);
+	  fill(0);
+	  rect(-2, -90, 4, 90);
+	  pop( );
 
-  	fill(85, 98, 112);
-  	ellipse(600, 650, 20, 20);
-  	ellipse(600, 670, 20, 20);
-  	rect(600, 680, 20, 20);
-  	rect(595, 700, 5, 20);
-  	rect(605, 700, 5, 20);
+	  // second hand
+	  push( );
+	  translate(width/2, height/2);
 
+	  rotate(s);
 
-// Respond to mouse or keyboard event = 2 points
+	  fill(180, 180, 180);
+	  rect(-1, -120, 2, 120);
+	  pop( );
 
-  // Move Character with Arrow Keys
 
-  	if (keyIsPressed) {
-		if (keyCode == LEFT_ARROW) {characterX = characterX - speed;}
-		else if (keyCode == RIGHT_ARROW) {characterX = characterX + speed;}
-		//else if (keyCode == UP_ARROW) {fortY = fortY - speed;}
-		//else if (keyCode == DOWN_ARROW) {fortY = fortY + speed;}
-		}
-  	fill(255);
-  	ellipse(characterX, 650, 20, 20);
-  	ellipse(characterX, 670, 20, 20);
-  	rect(characterX, 680, 20, 20);
-  	rect(characterX - 5, 700, 5, 20);
-  	rect(characterX + 5, 700, 5, 20);
 
-
-
-
-// Use at least 1 for loop = 2 points
-
-	// Yellow rays of sunlight follow the sun.
-  // Rays of sunlight turns white when mouse is pressed.
-
-if (mouseIsPressed == true) {
-
-  	for (sunrayY = 100; sunrayY <= height-200; sunrayY += 100) {
-			for (sunrayX = 260; sunrayX <= width-240; sunrayX += 100) {
-
-        strokeWeight(1.5);
-        stroke(255);
-        line(sunrayX, sunrayY, mouseX, mouseY);
-        }
-    }
-
-} else {
-
-    for (sunrayY = 100; sunrayY <= height-200; sunrayY += 100) {
-			for (sunrayX = 260; sunrayX <= width-240; sunrayX += 100) {
-
-        strokeWeight(1.5);
-        stroke(251,184,41);
-        line(sunrayX, sunrayY, mouseX, mouseY);
-        }
-    }
-}
-
-
-
-
-// Make use of at least 3 primitive functions = 3 points
-
-  // The yellow sun follows the mouse cursor.
-  // The sun turns white when mouse is pressed.
-
-	// Color: "Heart of Gold"
-	  if (mouseIsPressed == true) {
-    noStroke();
-    fill(255);
-  		ellipse(mouseX, mouseY, sunDiameterX, sunDiameterY);
-
-    } else {
-
-    fill(251,184,41);
-  		ellipse(mouseX, mouseY, sunDiameterX, sunDiameterY);
-
-    }
-
-
-
-
-  // When mouse is pressed, "Eclipse Moons" appear.
-  // When mouse is pressed, moving clouds disappear.
-
-  	if (mouseIsPressed == true) {
-    fill(255, 119, 142);
-    	ellipse(x + 150, y, 50, 50);
-      ellipse(x - 150, y, 50, 50);
-
-		} else {
-
-  // Clouds move x position 1 pixel each time the sketch loops.
-  // Clouds run to the edge of the canvas and then change direction.
-
-    if (cloudX >= width || cloudX < 0 ) {
-			cloudSpeed = -cloudSpeed;
-		}
-
-		fill(255, 255, 255);
-    noStroke();
-      ellipse(cloudX, cloudY + 100, 50, 50);
-      ellipse(cloudX - 30, cloudY + 100, 80, 80);
-      ellipse(cloudX - 80, cloudY + 100, 50, 50);
-
-      ellipse(cloudX - 270, cloudY + 450, 20, 20);
-      ellipse(cloudX - 300, cloudY + 450, 50, 50);
-      ellipse(cloudX - 330, cloudY + 450, 80, 80);
-      ellipse(cloudX - 380, cloudY + 450, 50, 50);
-
-  	cloudX = cloudX + cloudSpeed;
-    }
-
-
-
-
-	// The movement of the "Eclipse Moons" eases while following the sun.
-
-  	let targetX = mouseX;
-  	let targetY = mouseY;
-  	x += (targetX-x) * easing;
-  	y += (targetY-y) * easing;
-
-  	print(targetX + ":" +x);
-
-
-}
+	}
